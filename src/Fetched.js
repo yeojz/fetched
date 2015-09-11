@@ -88,7 +88,7 @@ class Fetched {
 
 
     /**
-     *  Post Method
+     *  Get Method
      *
      *  @param {string} endpoint
      */
@@ -101,11 +101,11 @@ class Fetched {
 
 
     /**
-     *  Post Method
+     *  Delete Method
      *
      *  @param {string} endpoint
      */
-    delete(endpoint) {
+    del(endpoint) {
         this.init();
         this.options.method = 'delete';
         this.endpoint = endpoint;
@@ -127,11 +127,25 @@ class Fetched {
 
 
     /**
-     *  Post Method
+     *  Header setting method
      *
-     *  @param {string} endpoint
+     *  @param {string|object} key
+     *  @param {string} value
      */
     set(key, value){
+
+        // If it's a object
+        // Iterate and set all associated values
+        if (typeof key === 'object') {
+
+            Object.keys(key).forEach((k) => {
+                this.options.headers[k] = key[k];
+            });
+
+            return this;
+        };
+
+
         this.options.headers[key] = value;
         return this;
     }
