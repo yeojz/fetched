@@ -1,9 +1,10 @@
 # fetched
-A window.fetch wrapper with an ajax/superagent like API
+A window.fetch/node-fetch wrapper with an ajax/superagent like API
 
+[![npm](https://img.shields.io/npm/v/fetched.svg?style=flat-square)](https://www.npmjs.com/package/fetched)
 
 ## About
-`fetched` provides a thin-wrapper around the `window.fetch` api to allow
+`fetched` provides a thin-wrapper around the `fetch` api to allow
 for a more declarative use.
 
 This library requires `fetch` and `promise` to work.
@@ -25,12 +26,16 @@ __promise__
 
 ## Usage
 
+For example, posting data to `http://example.com/api/me`
+
 ```js
-import Fetched from 'Fetched';
+import Fetched from 'fetched';
 
-let agent = new Fetched('http://example.com');
+let agent = new Fetched(fetch);
+agent.provider('http://example.com');
 
-agent.post('/api/login')
+
+agent.post('/api/me')
     .send({
         username: 'my-username',
         password: 'my-password'

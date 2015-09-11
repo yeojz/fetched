@@ -14,12 +14,13 @@ class Fetched {
     /**
      *  Creates the instance
      *
+     *  @param {Object} instance - the fetch instance
      *  @param {string} base - the base url for your endpoints
      */
-    constructor(base = '') {
-
+    constructor(instance, base = '') {
         this.init();
         this.baseUri = base;
+        this.fetch = instance;
     }
 
 
@@ -56,7 +57,7 @@ class Fetched {
      *
      *  @param {string} base - the base url for your endpoints
      */
-    uri(base = '') {
+    provider(base = '') {
         this.baseUri = base;
         return this;
     }
@@ -202,7 +203,7 @@ class Fetched {
             params.body = (this.isJson) ? JSON.stringify(this.data) : this.data;
         }
 
-        return fetch(this.baseUri + this.endpoint, params);
+        return this.fetch(this.baseUri + this.endpoint, params);
     }
 }
 
