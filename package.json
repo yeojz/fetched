@@ -1,6 +1,6 @@
 {
   "name": "fetched",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A window.fetch wrapper with an ajax/superagent like api",
   "main": "lib/Fetched.js",
   "scripts": {
