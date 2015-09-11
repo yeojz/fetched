@@ -1,7 +1,9 @@
 /**
  *
  *  Fetched
- *  A WHATWG fetch API wrapper inspired by superagent style api.
+ *
+ *  A XHR request formatter with an ajax/superagent like API
+ *  that is targeted toward `window.fetch` whatwg standard / polyfill
  *
  *  @class Fetched
  *  @since 0.1.0
@@ -204,11 +206,11 @@ class Fetched {
 
 
     /**
-     *  Executes the promise call
-     *
-     *  @param {Object} instance - the fetch instance
+     *  Gets a formatted request object
      */
-    end(instance) {
+    format() {
+        let resource = this.baseUri + this.endpoint;
+
         let params = {
             ...this.options,
         };
@@ -217,7 +219,22 @@ class Fetched {
             params.body = (this.isJson) ? JSON.stringify(this.data) : this.data;
         }
 
-        return instance(this.baseUri + this.endpoint, params);
+        return {
+            resource: resource,
+            params: params
+        }
+    }
+
+
+
+    /**
+     *  Executes request using the provided transport instance
+     *
+     *  @param {Object} req - the transport instance (fetch)
+     */
+    using(req) {
+        const {resource, params} = this.format();
+        return req(resource, params);
     }
 }
 

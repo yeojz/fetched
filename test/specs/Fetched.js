@@ -35,7 +35,8 @@ describe('Fetched API tests', () => {
             'send',
             'json',
             'withCredentials',
-            'end'
+            'format',
+            'using'
         ];
 
         methods.forEach((key) => {

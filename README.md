@@ -1,20 +1,21 @@
 # fetched
-A window.fetch/node-fetch wrapper with an ajax/superagent like API
+`fetched` is a xhr request formatter with an ajax/superagent like API
+that is targeted toward `window.fetch` WHATWG standard / polyfill
 
 [![npm](https://img.shields.io/npm/v/fetched.svg?style=flat-square)](https://www.npmjs.com/package/fetched)
 
-## About
-`fetched` provides a thin-wrapper around the `fetch` api to allow
-for a more declarative use.
 
-This library requires `fetch` and `promise` to work.
+## About
+`fetched` provides a declarative wrapper for request parameters.
+It's targeted towards `window.fetch` standard, but can be used to format
+request object for other XMLHttpRequest libraries
 
 
 ## Installation
 
 `npm install fetched --save`
 
-You may need the following polyfills:
+To use `fetch`, You may need the following polyfills:
 
 __fetch__
 `npm install whatwg-fetch --save`
@@ -44,3 +45,7 @@ agent.post('/api/me')
     .withCredentials()
     .end()
 ```
+
+## Note:
+
+API will not be stable until version 1.0.0
