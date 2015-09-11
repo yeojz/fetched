@@ -43,7 +43,7 @@ agent.post('/api/me')
     })
     .json()
     .withCredentials()
-    .end()
+    .using(fetch)
 ```
 
 ## Note:
