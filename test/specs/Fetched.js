@@ -29,7 +29,7 @@ describe('Fetched API tests', () => {
         let methods = [
             'post',
             'get',
-            'delete',
+            'del',
             'put',
             'set',
             'send',
