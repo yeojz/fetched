@@ -1,0 +1,33 @@
+{
+  "name": "fetched",
+  "version": "0.1.0",
+  "description": "A window.fetch wrapper with an ajax/superagent like api",
+  "main": "lib/Fetched.js",
+  "scripts": {
+    "build": "babel ./src --out-dir ./lib",
+    "clean": "rm -rf ./lib",
+    "prepublish": "npm run build",
+    "pretest": "npm run build",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeojz/fetched.git"
+  },
+  "keywords": [
+    "whatwg",
+    "fetch",
+    "promise"
+  ],
+  "author": "Gerald Yeo <contact@fusedthought.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yeojz/fetched/issues"
+  },
+  "homepage": "https://github.com/yeojz/fetched#readme",
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "babel-eslint": "^4.1.1",
+    "mocha": "^2.3.2"
+  }
+}
