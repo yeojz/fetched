@@ -32,8 +32,7 @@ For example, posting data to `http://example.com/api/me`
 ```js
 import Fetched from 'fetched';
 
-let agent = new Fetched(fetch);
-agent.provider('http://example.com');
+let agent = new Fetched('http://example.com');
 
 
 agent.post('/api/me')
