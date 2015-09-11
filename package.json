@@ -4,11 +4,11 @@
   "description": "A window.fetch wrapper with an ajax/superagent like api",
   "main": "lib/Fetched.js",
   "scripts": {
+    "test": "mocha",
     "build": "babel ./src --out-dir ./lib",
     "clean": "rm -rf ./lib",
     "prepublish": "npm run build",
-    "pretest": "npm run build",
-    "test": "mocha"
+    "pretest": "npm run build"
   },
   "repository": {
     "type": "git",
