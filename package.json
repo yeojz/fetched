@@ -1,7 +1,7 @@
 {
   "name": "fetched",
   "version": "0.7.3",
-  "description": "A window.fetch wrapper with an ajax/superagent like api",
+  "description": "A xhr request formatter (window.fetch) with an ajax/superagent inspired API",
   "main": "lib/Fetched.js",
   "scripts": {
     "build": "babel ./src --out-dir ./lib",

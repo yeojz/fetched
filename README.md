@@ -3,7 +3,7 @@
 that is targeted toward `window.fetch` WHATWG standard / polyfill
 
 [![npm](https://img.shields.io/npm/v/fetched.svg?style=flat-square)](https://www.npmjs.com/package/fetched)
-
+[![Build Status](https://img.shields.io/travis/yeojz/fetched.svg?style=flat-square)](https://travis-ci.org/yeojz/fetched)
 
 ## About
 `fetched` provides a declarative wrapper for request parameters.
