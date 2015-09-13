@@ -58,15 +58,15 @@ agent.post('/api/me')
 You should get the following output:
 ```json
 {
-    resource: 'http://localhost',
-    params: {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
+    "resource": "http://localhost",
+    "params": {
+        "headers": {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
         },
-        method: 'post',
-        body: '{"username":"my-username","password":"my-password"}',
-        credentials: 'include'
+        "method": "post",
+        "body": "{'username':'my-username','password':'my-password'}",
+        "credentials": "include"
     }
 }
 ```
