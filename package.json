@@ -1,6 +1,6 @@
 {
   "name": "fetched",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "description": "A xhr request formatter (window.fetch) with an ajax/superagent inspired API",
   "main": "lib/Fetched.js",
   "scripts": {
