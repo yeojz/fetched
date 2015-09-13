@@ -11,12 +11,6 @@ const types = {
 }
 
 
-const requestQuery = [
-    'application/x-www-form-urlencoded',
-    'get'
-]
-
-
 export default {
     types
 }
