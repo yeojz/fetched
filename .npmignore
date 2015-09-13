@@ -1,6 +1,10 @@
-node_modules
-test
+archive
 examples
+public
+node_modules
 src
+test
 .codeclimate.yml
+.DS_STORE
 .travis.yml
+

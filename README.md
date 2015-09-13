@@ -1,5 +1,5 @@
 # fetched
-`fetched` is a xhr request formatter with an ajax/superagent like API
+`fetched` is a xhr request formatter with an ajax/superagent inspired API
 that is targeted toward `window.fetch` WHATWG standard / polyfill
 
 [![npm](https://img.shields.io/npm/v/fetched.svg?style=flat-square)](https://www.npmjs.com/package/fetched)
@@ -32,8 +32,7 @@ For example, posting data to `http://example.com/api/me`
 ```js
 import Fetched from 'fetched';
 
-let agent = new Fetched('http://example.com');
-
+let agent = new Fetched('http://localhost');
 
 agent.post('/api/me')
     .send({
@@ -45,6 +44,33 @@ agent.post('/api/me')
     .using(fetch)
 ```
 
+To use with other libraries, you can do the following:
+```
+agent.post('/api/me')
+    .send({
+        username: 'my-username',
+        password: 'my-password'
+    })
+    .json()
+    .withCredentials()
+    .format();
+```
+You should get the following output:
+```json
+{
+    resource: 'http://localhost',
+    params: {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: '{"username":"my-username","password":"my-password"}',
+        credentials: 'include'
+    }
+}
+```
+
 ## Note:
 
-API will not be stable until version 1.0.0
+API is still a little unstable.

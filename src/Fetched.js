@@ -1,3 +1,6 @@
+import querystring from 'query-string';
+import config from './config';
+
 /**
  *
  *  Fetched
@@ -11,7 +14,7 @@
  *  @license MIT
  *
  */
-class Fetched {
+export default class Fetched {
 
     /**
      *  Creates the instance
@@ -26,13 +29,17 @@ class Fetched {
 
     /**
      *  Initialization
+     *
+     *  @return {Fetched}
      */
     init() {
         this.baseUri = this.baseUri || '';
-        this.options = this.options || {};
-        this.options.headers = this.options.headers || {};
-        this.isJson = false;
-
+        this.data = this.data || {};
+        this.options = {
+            headers: {},
+            method: 'get',
+            ...this.options,
+        }
 
         return this;
     }
@@ -40,25 +47,32 @@ class Fetched {
 
     /**
      *  Resets the all options
+     *
+     *  @return {Fetched}
      */
     reset() {
         this.options = {
             headers: {},
             method: 'get'
         }
+        this.data = {};
 
-        this.isJson = false;
         return this;
     }
 
+
+//  Building Methods
+//  ----------------------------------------------
 
     /**
      * Sets the base uri for endpoint
      *
      *  @param {string} base - the base url for your endpoints
+     *  @return {Fetched}
      */
     provider(base = '') {
         this.baseUri = base;
+
         return this;
     }
 
@@ -68,10 +82,14 @@ class Fetched {
      *  In case there are any other HTTP methods.
      *
      *  @param {string} name
+     *  @param {string} endpoint
+     *  @return {Fetched}
      */
-    method(name) {
+    method(name, endpoint) {
         this.init();
-        this.options.method = name;
+        this.options.method = name.toLowerCase();
+        this.endpoint = endpoint;
+
         return this;
     }
 
@@ -80,11 +98,13 @@ class Fetched {
      *  Post Method
      *
      *  @param {string} endpoint
+     *  @return {Fetched}
      */
     post(endpoint) {
         this.init();
         this.options.method = 'post';
         this.endpoint = endpoint;
+
         return this;
     }
 
@@ -93,11 +113,13 @@ class Fetched {
      *  Get Method
      *
      *  @param {string} endpoint
+     *  @return {Fetched}
      */
     get(endpoint) {
         this.init();
         this.options.method = 'get';
         this.endpoint = endpoint;
+
         return this;
     }
 
@@ -106,11 +128,13 @@ class Fetched {
      *  Delete Method
      *
      *  @param {string} endpoint
+     *  @return {Fetched}
      */
     del(endpoint) {
         this.init();
         this.options.method = 'delete';
         this.endpoint = endpoint;
+
         return this;
     }
 
@@ -119,11 +143,13 @@ class Fetched {
      *  Post Method
      *
      *  @param {string} endpoint
+     *  @return {Fetched}
      */
     put(endpoint) {
         this.init();
         this.options.method = 'put';
         this.endpoint = endpoint;
+
         return this;
     }
 
@@ -133,22 +159,21 @@ class Fetched {
      *
      *  @param {string|object} key
      *  @param {string} value
+     *  @return {Fetched}
      */
-    set(key, value){
+    set(key, value = null){
 
         // If it's a object
         // Iterate and set all associated values
         if (typeof key === 'object') {
-
             Object.keys(key).forEach((k) => {
                 this.options.headers[k] = key[k];
             });
 
-            return this;
-        };
+        } else {
+            this.options.headers[key] = value;
+        }
 
-
-        this.options.headers[key] = value;
         return this;
     }
 
@@ -157,6 +182,7 @@ class Fetched {
      *  Sets return and sending content to json
      *
      *  @param {boolean} value
+     *  @return {Fetched}
      */
     json(value = true) {
         this.options.headers['Accept'] = 'application/json';
@@ -168,13 +194,41 @@ class Fetched {
 
 
     /**
+     *  Accept headers
+     *
+     *  @param {string} value
+     *  @return {Fetched}
+     */
+    accept(value) {
+        this.options.headers['Accept'] = config.types[value] || value;
+
+        return this;
+    }
+
+
+    /**
+     *  Content Type headers
+     *
+     *  @param {string} value
+     *  @return {Fetched}
+     */
+    type(value) {
+        this.options.headers['Content-Type'] = config.types[value] || value;
+
+        return this;
+    }
+
+
+    /**
      *  By default, fetch does not send Cookies.
      *  This will enable or disable cookies.
      *
-     *  @param {Object} type
+     *  @param {Object} value
+     *  @return {Fetched}
      */
-    withCredentials(type = 'include') {
-        this.options.credentials = type;
+    withCredentials(value = 'include') {
+        this.options.credentials = value;
+
         return this;
     }
 
@@ -182,16 +236,31 @@ class Fetched {
     /**
      *  Sets the data to send
      *
-     *  @param {Object} data
+     *  @param {string|Object} key
+     *  @param {string} value
+     *  @return {Fetched}
      */
-    send(data) {
-        this.data = data;
+    send(key, value) {
+        if (typeof key === 'object') {
+            let data = {
+                ...this.data,
+                ...key
+            }
+
+            this.data = data;
+
+        } else {
+            this.data[key] = value;
+        }
+
         return this;
     }
 
 
     /**
      *  Overrides all the configurations
+     *
+     *  @return {Fetched}
      */
     config(opt = {}) {
         let options = {
@@ -205,18 +274,75 @@ class Fetched {
     }
 
 
+//  Formmatting and Exit methods
+//  ----------------------------------------------
+
+    /**
+     *  Check if data should be sent as a string
+     *  or as part of a request body.
+     *
+     *  @return {Fetched}
+     */
+    isQueryString() {
+        if (this.options.headers['Content-Type'] === 'application/x-www-form-urlencoded'){
+            return true;
+        }
+
+        if (this.options.method === 'get'){
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     *  Formats data using predfined formatters
+     *  depending on the data type
+     *
+     *  @return {string}
+     */
+    formatData(data) {
+        let type = this.options.headers['Content-Type'];
+
+        if (this.options.method === 'get') {
+            type = 'query';
+        }
+
+        let map =  {
+            'application/json': JSON.stringify,
+            'application/x-www-form-urlencoded': querystring.stringify,
+            'query': querystring.stringify
+        }
+
+        let formatter = map[type];
+
+        return (formatter) ? formatter(data) : data;
+    }
+
+
     /**
      *  Gets a formatted request object
+     *  without for further parsing outside this class
+     *
+     *  @return {Object}
      */
     format() {
+        let data;
         let resource = this.baseUri + this.endpoint;
 
         let params = {
             ...this.options,
         };
 
-        if (this.data){
-            params.body = (this.isJson) ? JSON.stringify(this.data) : this.data;
+        if (Object.keys(this.data).length > 0){
+            data= this.formatData(this.data);
+
+            if (this.isQueryString()){
+                resource += '?' + data;
+            } else {
+                params.body = data;
+            }
         }
 
         return {
@@ -226,16 +352,15 @@ class Fetched {
     }
 
 
-
     /**
      *  Executes request using the provided transport instance
      *
-     *  @param {Object} req - the transport instance (fetch)
+     *  @param {Object} req - the transport instance (eg: fetch)
      */
     using(req) {
         const {resource, params} = this.format();
+
         return req(resource, params);
     }
 }
 
-export default Fetched;

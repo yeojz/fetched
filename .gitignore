@@ -1,12 +1,7 @@
-*.log
-*.pid
-*.seed
-
+archive
+lib
 logs
-pids
-
 node_modules
 test/logs
-test/fixtures/build
+.DS_STORE
 
-lib
